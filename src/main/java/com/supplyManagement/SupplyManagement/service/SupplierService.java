@@ -16,5 +16,7 @@ public interface SupplierService {
 
     String addSupplier(AddSupplierDTO addSupplierDTO);
 
-    List<Supplier> querySuppliers(String location, NatureOfBusiness natureOfBusiness, ManufacturingProcess manufacturingProcess);
+    Page<Supplier> querySuppliers(String location, NatureOfBusiness natureOfBusiness, ManufacturingProcess manufacturingProcess, int page, int size);
+
+    List<Supplier> getAllSuppliers();
 }

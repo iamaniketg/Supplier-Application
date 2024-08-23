@@ -7,6 +7,7 @@ import com.supplyManagement.SupplyManagement.model.enums.NatureOfBusiness;
 import com.supplyManagement.SupplyManagement.service.SupplierService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -28,30 +29,30 @@ public class SupplierController {
     public ResponseEntity<List<Supplier>> querySuppliers(
             @RequestParam String location,
             @RequestParam NatureOfBusiness natureOfBusiness,
-            @RequestParam ManufacturingProcess manufacturingProcess) {
-
-        logger.info("Received query request: location={}, natureOfBusiness={}, manufacturingProcess={}",
-                location, natureOfBusiness, manufacturingProcess);
-
-        List<Supplier> suppliers = supplierService.querySuppliers(location, natureOfBusiness, manufacturingProcess);
-
-        logger.info("Suppliers found: {}", suppliers.size());
-
+            @RequestParam ManufacturingProcess manufacturingProcess,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        logger.info("Received query request: location={}, natureOfBusiness={}, manufacturingProcess={}, page={}, size={}",
+                location, natureOfBusiness, manufacturingProcess, page, size);
+        Page<Supplier> suppliersPage = supplierService.querySuppliers(location, natureOfBusiness, manufacturingProcess, page, size);
+        List<Supplier> suppliers = suppliersPage.getContent(); // Extract the content
         if (suppliers.isEmpty()) {
             logger.warn("No suppliers found for the given criteria");
         }
-
-        return ResponseEntity.ok(suppliers);
+        return ResponseEntity.ok(suppliers); // Return only the content
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addSupplier(@Valid @RequestBody AddSupplierDTO addSupplierDTO) {
         logger.info("Received request to add supplier: {}", addSupplierDTO);
-
         String supplier = supplierService.addSupplier(addSupplierDTO);
-
         logger.info("Supplier added successfully with ID: {}", supplier);
-
         return ResponseEntity.ok("Supplier added successfully");
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Supplier>> getAllSuppliers() {
+        List<Supplier> suppliers = supplierService.getAllSuppliers();
+        return ResponseEntity.ok(suppliers);
     }
 }
