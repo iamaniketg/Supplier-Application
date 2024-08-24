@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleSupplierAdditionException(SupplierAdditionException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("An unexpected error occurred");
     }

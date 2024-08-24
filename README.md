@@ -82,6 +82,19 @@ The Supplier Management is a Spring Boot application that provides endpoints for
 - **Method:** `POST`
 - **Request Body:** `AddSupplierDTO`
 - **Response:** `200 OK` with the message "Supplier added successfully"
+- **Curl:** `curl -X 'POST' \
+  'http://localhost:7575/api/supplier/add' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "companyName": "op corp",
+  "website": "op.com",
+  "location": "Hyderabad",
+  "natureOfBusiness": "SMALL_SCALE",
+  "manufacturingProcesses": [
+  "MOULDING"
+  ]
+  }'`
 
 ### Update a Supplier
 
@@ -90,6 +103,13 @@ The Supplier Management is a Spring Boot application that provides endpoints for
 - **Path Variable:** `supplierId` - The ID of the supplier to update
 - **Request Body:** `UpdateSupplierDTO`
 - **Response:** `200 OK` with the updated `Supplier` object
+- **Curl:** `curl -X 'PATCH' \
+  'http://localhost:7575/api/supplier/66c72bdfe2ef51140e19f467' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "companyName": "ABC CORP"
+  }'`
 
 ### Query Suppliers
 
@@ -102,12 +122,28 @@ The Supplier Management is a Spring Boot application that provides endpoints for
     - `page` (default `0`)
     - `size` (default `10`)
 - **Response:** `200 OK` with a list of `Supplier` objects
+- **Curl:** `curl -X 'POST' \
+  'http://localhost:7575/api/supplier/query?location=Pune&natureOfBusiness=SMALL_SCALE&manufacturingProcess=MOULDING&page=1&size=10' \
+  -H 'accept: */*' \
+  -d ''`
 
 ### Get All Suppliers
 
 - **URL:** `/api/supplier/all`
 - **Method:** `GET`
 - **Response:** `200 OK` with a list of all `Supplier` objects
+- **Curl:** `curl -X 'GET' \
+  'http://localhost:7575/api/supplier/all' \
+  -H 'accept: */*`
+
+### Delete Supplier by Id
+- **URL:** `/api/supplier/{supplierId}`
+- **Method:** `DELETE`
+- **Path Variable:** `supplierId` - The ID of the supplier to update
+- **Response:** `200 OK` with a list of all `Supplier` objects
+- **Curl:** `curl -X 'DELETE' \
+  'http://localhost:7575/api/supplier/66c8742588dcfe6f3198f29e' \
+  -H 'accept: */*'`
 
 ## Testing
 
