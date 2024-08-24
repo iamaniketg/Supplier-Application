@@ -31,7 +31,6 @@ public class Supplier {
     @UniqueMongoField(fieldName = "website", message = "Website must be unique")
     private String website;
 
-    @UniqueMongoField(fieldName = "location", message = "Location must be unique")
     private String location;
     // Example: "India"
     @Field(targetType = FieldType.STRING)
